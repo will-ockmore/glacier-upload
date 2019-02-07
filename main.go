@@ -66,6 +66,10 @@ func main() {
 		concurrencyStr := c.String("concurrency")
 		region := c.String("region")
 
+		if vault == "" {
+			log.Fatal("Required argument vault missing.")
+		}
+
 		partSize, err := strconv.ParseUint(partSizeStr, 10, 16)
 
 		if err != nil {
@@ -92,7 +96,7 @@ func main() {
 			FilePath:           filePath,
 			Vault:              vault,
 			ArchiveDescription: archiveDescription,
-			PartSize:           partSize,
+			PartSize:           partSize * (1 << 20), // part size in bytes
 			Concurrency:        concurrency,
 			Region:             region,
 		})
